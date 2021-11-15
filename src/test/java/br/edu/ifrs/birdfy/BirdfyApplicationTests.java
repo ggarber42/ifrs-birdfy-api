@@ -1,4 +1,4 @@
-package br.edu.ifrs.birdfly.birdfly;
+package br.edu.ifrs.birdfy;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

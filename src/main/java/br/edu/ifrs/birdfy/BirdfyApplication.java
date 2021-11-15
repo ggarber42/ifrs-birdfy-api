@@ -1,4 +1,4 @@
-package br.edu.ifrs.birdfly.birdfly;
+package br.edu.ifrs.birdfy;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
