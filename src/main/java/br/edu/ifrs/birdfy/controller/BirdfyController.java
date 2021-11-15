@@ -2,6 +2,7 @@ package br.edu.ifrs.birdfy.controller;
 
 import br.edu.ifrs.birdfy.model.Ave;
 import br.edu.ifrs.birdfy.service.AveService;
+import br.edu.ifrs.birdfy.utils.EntityNotFoundException;
 import com.sun.istack.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,9 @@ public class BirdfyController {
     }
 
     @GetMapping(value="/{id}")
-    public ResponseEntity<Ave> getAve(@PathVariable("id") int id){ return ResponseEntity.ok().body(aveService.getAveByID(id)); }
+    public ResponseEntity<Ave> getAve(@PathVariable("id") int id) throws EntityNotFoundException {
+        return ResponseEntity.ok().body(aveService.getAveByID(id));
+    }
 
     @PostMapping
     public Ave createAve(@NotNull @RequestBody Ave ave){
@@ -30,12 +33,12 @@ public class BirdfyController {
     }
 
     @PutMapping(value="/{id}")
-    public ResponseEntity<Ave> updateAve(@PathVariable(value = "id") Integer aveId, @RequestBody Ave ave) {
+    public ResponseEntity<Ave> updateAve(@PathVariable(value = "id") Integer aveId, @RequestBody Ave ave) throws EntityNotFoundException {
         return ResponseEntity.ok(aveService.updateAve(aveId, ave));
     }
 
     @DeleteMapping(value="/{id}")
-    public ResponseEntity<Void>  deleteAve(@PathVariable int id){
+    public ResponseEntity<Void>  deleteAve(@PathVariable int id) throws EntityNotFoundException {
         aveService.deleteAve(id);
         return ResponseEntity.ok().build();
     }

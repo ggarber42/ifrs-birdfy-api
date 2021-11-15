@@ -3,8 +3,7 @@ package br.edu.ifrs.birdfy.service;
 import br.edu.ifrs.birdfy.model.Ave;
 import br.edu.ifrs.birdfy.repository.AveRepository;
 
-import br.edu.ifrs.birdfy.utils.ResourceNotFoundException;
-import org.springframework.http.ResponseEntity;
+import br.edu.ifrs.birdfy.utils.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
@@ -22,7 +21,7 @@ public class AveService {
 
     public Ave getAveByID(int aveId){
         Ave ave = aveRepo.findById(aveId).orElseThrow(
-                () -> new ResourceNotFoundException("Employee not found" + aveId));
+                () -> new EntityNotFoundException("Ave not found" + aveId));
         return ave;
     }
 
@@ -32,11 +31,9 @@ public class AveService {
     @Transactional
     public Ave updateAve(int aveId, Ave ave){
 
-            Ave aveUpdated = aveRepo.findById(aveId)
-                    .orElseThrow(() -> new ResourceNotFoundException("Ave not found for this id :: " + aveId));
-            System.out.println(aveUpdated);
-            aveUpdated.setNome(ave.getNome());
-            aveRepo.save(aveUpdated);
+        Ave aveUpdated = aveRepo.findById(aveId).orElseThrow( () -> new EntityNotFoundException("Ave not found" + aveId));
+        aveUpdated.setNome(ave.getNome());
+        aveRepo.save(aveUpdated);
         return aveUpdated;
 
 
@@ -45,7 +42,7 @@ public class AveService {
     @Transactional
     public void deleteAve(int aveId){
         Ave aveUpdated = aveRepo.findById(aveId)
-                .orElseThrow(() -> new ResourceNotFoundException("Ave not found for this id :: " + aveId));
+                .orElseThrow(() -> new EntityNotFoundException("Ave not found for this id :: " + aveId));
         aveRepo.deleteById(aveId);
     }
 }
