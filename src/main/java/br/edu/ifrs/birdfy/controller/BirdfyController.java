@@ -53,7 +53,12 @@ public class BirdfyController {
     }
 
     @GetMapping(value="/usuario/{id}")
-    public ResponseEntity<Usuario> getUsuario(@PathVariable("id") int id) throws EntityNotFoundException {
-        return ResponseEntity.ok().body(usuarioService.getUsuarioByID(id));
+    public ResponseEntity<Usuario> updateUsuario(@PathVariable("id") String uuid) throws EntityNotFoundException {
+        return ResponseEntity.ok().body(usuarioService.getUsuarioByFirebaseUiid(uuid));
+    }
+
+    @PutMapping(value="/usuario/{id}")
+    public ResponseEntity<Usuario> updateUsuario(@PathVariable(value = "id") String uuid, @RequestBody Usuario usuario) throws EntityNotFoundException {
+        return ResponseEntity.ok(usuarioService.updateUsuarioByFirebaseUiid(uuid, usuario));
     }
 }

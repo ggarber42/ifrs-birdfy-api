@@ -1,8 +1,9 @@
 # Rodando Localmente
 
 ```bash
- mvn clean install -DskipTests=true
- docker-compose up --build
+systemctl stop postgresql
+mvn clean install -DskipTests=true
+docker-compose up --build
 ```
 
 # Deploy no Heroku

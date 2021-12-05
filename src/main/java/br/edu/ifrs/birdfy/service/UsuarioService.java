@@ -7,6 +7,8 @@ import br.edu.ifrs.birdfy.utils.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
 @Service
 public class UsuarioService {
 
@@ -19,5 +21,24 @@ public class UsuarioService {
         Usuario usuario = usuarioRepo.findById(usuarioId).orElseThrow(
                 () -> new EntityNotFoundException("Ave not found" + usuarioId));
         return usuario;
+    }
+
+    public Usuario getUsuarioByFirebaseUiid(String uuid){
+        Usuario usuario = usuarioRepo.findByFirebaseUiid(uuid);
+        if(usuario == null ){
+            throw new EntityNotFoundException("Usuario not found" + uuid);
+        }
+        return usuario;
+    }
+
+    @Transactional
+    public Usuario updateUsuarioByFirebaseUiid(String uuid, Usuario usuario){
+        Usuario usuarioUpdated = usuarioRepo.findByFirebaseUiid(uuid);
+        if(usuarioUpdated == null ){
+            throw new EntityNotFoundException("Usuario not found" + uuid);
+        }
+        usuarioUpdated.setNome(usuario.getNome());
+        usuarioRepo.save(usuarioUpdated);
+        return usuarioUpdated;
     }
 }
