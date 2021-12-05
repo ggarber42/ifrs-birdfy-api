@@ -1,8 +1,7 @@
 # Rodando Localmente
 
 ```bash
- mvn clean install -DskipTests=true
- docker-compose up --build
+ mvn clean install -DskipTests=true && docker-compose up --build
 ```
 
 # Deploy no Heroku
