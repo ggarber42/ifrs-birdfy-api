@@ -4,11 +4,16 @@ import br.edu.ifrs.birdfy.model.Ave;
 import br.edu.ifrs.birdfy.model.Usuario;
 import br.edu.ifrs.birdfy.service.AveService;
 import br.edu.ifrs.birdfy.service.UsuarioService;
+import br.edu.ifrs.birdfy.utils.EmptyJsonResponse;
 import br.edu.ifrs.birdfy.utils.EntityNotFoundException;
 import com.sun.istack.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import com.sipios.springsearch.anotation.SearchSpec;
+import org.springframework.data.jpa.domain.Specification;
 
 import java.util.List;
 
@@ -24,6 +29,11 @@ public class BirdfyController {
     @GetMapping("/ave")
     public ResponseEntity<List<Ave>> getAllAves(){
         return ResponseEntity.ok(aveService.getAllAves());
+    }
+
+    @GetMapping(value="/busca")
+    public ResponseEntity<List<Ave>> searchForCars(@SearchSpec Specification<Ave> specs) {
+        return ResponseEntity.ok(aveService.search(specs));
     }
 
     @GetMapping(value="/ave/{id}")
@@ -53,12 +63,16 @@ public class BirdfyController {
     }
 
     @GetMapping(value="/usuario/{id}")
-    public ResponseEntity<Usuario> updateUsuario(@PathVariable("id") String uuid) throws EntityNotFoundException {
-        return ResponseEntity.ok().body(usuarioService.getUsuarioByFirebaseUiid(uuid));
+    public ResponseEntity<Usuario> updateUsuario(@PathVariable("id") String email) throws EntityNotFoundException {
+        if(usuarioService.getUsuarioByFirebaseUiid(email) == null ){
+            return new ResponseEntity( "{\"message\":\"notfound\"}", HttpStatus.OK);
+        }
+        return ResponseEntity.ok().body(usuarioService.getUsuarioByFirebaseUiid(email));
     }
 
     @PutMapping(value="/usuario/{id}")
-    public ResponseEntity<Usuario> updateUsuario(@PathVariable(value = "id") String uuid, @RequestBody Usuario usuario) throws EntityNotFoundException {
-        return ResponseEntity.ok(usuarioService.updateUsuarioByFirebaseUiid(uuid, usuario));
+    public ResponseEntity<Usuario> updateUsuario(@PathVariable(value = "id") String email, @RequestBody Usuario usuario) throws EntityNotFoundException {
+        return ResponseEntity.ok(usuarioService.updateUsuarioByEmail(email, usuario));
     }
+
 }

@@ -4,7 +4,9 @@ import br.edu.ifrs.birdfy.model.Ave;
 import br.edu.ifrs.birdfy.repository.AveRepository;
 
 import br.edu.ifrs.birdfy.utils.EntityNotFoundException;
+import com.sipios.springsearch.anotation.SearchSpec;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
@@ -17,6 +19,11 @@ public class AveService {
 
     public List<Ave> getAllAves(){
         return aveRepo.findAll();
+    }
+
+    public List<Ave> search(@SearchSpec Specification<Ave> specs){
+
+        return aveRepo.findAll(Specification.where(specs));
     }
 
     public Ave getAveByID(int aveId){
@@ -33,6 +40,8 @@ public class AveService {
 
         Ave aveUpdated = aveRepo.findById(aveId).orElseThrow( () -> new EntityNotFoundException("Ave not found" + aveId));
         aveUpdated.setNome(ave.getNome());
+        aveUpdated.setEspecie(ave.getEspecie());
+        aveUpdated.setDataRegistro(ave.getDataRegistro());
         aveRepo.save(aveUpdated);
         return aveUpdated;
 

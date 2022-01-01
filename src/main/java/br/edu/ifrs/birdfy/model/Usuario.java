@@ -17,6 +17,10 @@ public class Usuario {
     @Id
     @GeneratedValue
     private int id;
-    private String firebaseUiid;
+    private String email;
     private String nome;
+    private String accountType;
+    private String curso;
+    private String instituicao;
+
 }

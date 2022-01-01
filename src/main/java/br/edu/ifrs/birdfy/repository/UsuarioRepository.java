@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 
 public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
-    Usuario findByFirebaseUiid(String firebaseUiid);
+    Usuario findByEmail(String firebaseUiid);
 }

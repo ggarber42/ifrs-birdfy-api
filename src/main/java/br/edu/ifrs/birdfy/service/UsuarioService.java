@@ -23,21 +23,24 @@ public class UsuarioService {
         return usuario;
     }
 
-    public Usuario getUsuarioByFirebaseUiid(String uuid){
-        Usuario usuario = usuarioRepo.findByFirebaseUiid(uuid);
+    public Usuario getUsuarioByFirebaseUiid(String email){
+        Usuario usuario = usuarioRepo.findByEmail(email);
         if(usuario == null ){
-            throw new EntityNotFoundException("Usuario not found" + uuid);
+//            throw new EntityNotFoundException("Usuario not found" + email);
+            return null;
         }
         return usuario;
     }
 
     @Transactional
-    public Usuario updateUsuarioByFirebaseUiid(String uuid, Usuario usuario){
-        Usuario usuarioUpdated = usuarioRepo.findByFirebaseUiid(uuid);
+    public Usuario updateUsuarioByEmail(String email, Usuario usuario){
+        Usuario usuarioUpdated = usuarioRepo.findByEmail(email);
         if(usuarioUpdated == null ){
-            throw new EntityNotFoundException("Usuario not found" + uuid);
+//            throw new EntityNotFoundException("Usuario not found" + email);
+            return null;
         }
         usuarioUpdated.setNome(usuario.getNome());
+        usuarioUpdated.setEmail(usuario.getEmail());
         usuarioRepo.save(usuarioUpdated);
         return usuarioUpdated;
     }
